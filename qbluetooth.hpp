@@ -2,11 +2,12 @@
 #define QBLUETOOTH_HPP
 
 #include <QMainWindow>
-
+#include <QDebug>
 
 namespace Ui {
     class QBluetooth;
 }
+
 
 class QBluetooth : public QMainWindow {
     Q_OBJECT
