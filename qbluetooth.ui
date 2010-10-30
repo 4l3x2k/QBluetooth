@@ -27,7 +27,7 @@
    <locale language="English" country="UnitedStates"/>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
-   <bool>false</bool>
+   <bool>true</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="minimumSize">
@@ -43,17 +43,17 @@
        <bool>true</bool>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="Device">
        <attribute name="title">
         <string>Device</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="1" column="0" rowspan="4">
+        <item row="1" column="0" rowspan="6">
          <widget class="QListWidget" name="listWidget"/>
         </item>
-        <item row="2" column="2">
+        <item row="1" column="2">
          <widget class="QToolButton" name="toolButtonScan">
           <property name="enabled">
            <bool>true</bool>
@@ -66,10 +66,10 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="2">
+        <item row="2" column="2">
          <widget class="QToolButton" name="toolButtonConnect">
           <property name="enabled">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="text">
            <string>Connect</string>
@@ -79,49 +79,283 @@
           </property>
          </widget>
         </item>
-        <item row="4" column="2">
-         <spacer name="verticalSpacer">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="Display">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <attribute name="title">
         <string>Display</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="2" column="0">
-         <widget class="QToolButton" name="toolButtonClear">
-          <property name="enabled">
+        <item row="3" column="1" rowspan="4">
+         <widget class="QTableWidget" name="tableWidget">
+          <property name="autoScroll">
            <bool>false</bool>
           </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="tabKeyNavigation">
+           <bool>false</bool>
+          </property>
+          <property name="showDropIndicator" stdset="0">
+           <bool>false</bool>
+          </property>
+          <property name="dragDropOverwriteMode">
+           <bool>false</bool>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::MultiSelection</enum>
+          </property>
+          <property name="verticalScrollMode">
+           <enum>QAbstractItemView::ScrollPerItem</enum>
+          </property>
+          <property name="horizontalScrollMode">
+           <enum>QAbstractItemView::ScrollPerItem</enum>
+          </property>
+          <property name="wordWrap">
+           <bool>false</bool>
+          </property>
+          <property name="cornerButtonEnabled">
+           <bool>false</bool>
+          </property>
+          <property name="rowCount">
+           <number>64</number>
+          </property>
+          <property name="columnCount">
+           <number>128</number>
+          </property>
+          <attribute name="horizontalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderDefaultSectionSize">
+           <number>20</number>
+          </attribute>
+          <attribute name="verticalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="verticalHeaderDefaultSectionSize">
+           <number>20</number>
+          </attribute>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+         </widget>
+        </item>
+        <item row="3" column="2">
+         <widget class="QToolButton" name="toolButtonSend">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="text">
-           <string>Clear</string>
+           <string>Send</string>
+          </property>
+          <property name="checkable">
+           <bool>false</bool>
           </property>
           <property name="toolButtonStyle">
            <enum>Qt::ToolButtonTextUnderIcon</enum>
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QToolButton" name="toolButtonSend">
+        <item row="4" column="2">
+         <widget class="QToolButton" name="toolButtonClear">
           <property name="enabled">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <property name="text">
-           <string>Send</string>
+           <string>Clear</string>
           </property>
           <property name="toolButtonStyle">
            <enum>Qt::ToolButtonTextUnderIcon</enum>
@@ -157,11 +391,6 @@
     <string>Quit</string>
    </property>
   </action>
-  <action name="actionOpen">
-   <property name="text">
-    <string>Open</string>
-   </property>
-  </action>
  </widget>
  <resources/>
  <connections>
@@ -178,6 +407,22 @@
     <hint type="destinationlabel">
      <x>149</x>
      <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toolButtonClear</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>tableWidget</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>149</x>
+     <y>190</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>122</x>
+     <y>154</y>
     </hint>
    </hints>
   </connection>

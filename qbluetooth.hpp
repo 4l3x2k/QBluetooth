@@ -2,6 +2,7 @@
 #define QBLUETOOTH_HPP
 
 #include <QMainWindow>
+#include <QList>
 #include <QListWidgetItem>
 #include <QDebug>
 
@@ -22,15 +23,23 @@ private:
 
 private slots:
 	// Device tab buttons
-	void on_toolButtonScan_clicked(bool);
-	void on_toolButtonConnect_clicked(bool);
+	void on_toolButtonScan_clicked();
+	void on_toolButtonConnect_clicked();
 
-	// Device tab list
+	// Device tab lists
 	void on_listWidget_itemClicked(QListWidgetItem *);
 
 	// Display tab buttons
-	void on_toolButtonSend_clicked(bool);
-	void on_toolButtonClear_clicked(bool);
+	void on_toolButtonSend_clicked();
+	void on_toolButtonClear_clicked();
+
+	// Display tab table
+	void on_tableWidget_cellActivated(int, int);
+	void on_tableWidget_cellChanged(int, int);
+	void on_tableWidget_cellClicked(int, int);
+	void on_tableWidget_cellDoubleClicked(int, int);
+	void on_tableWidget_cellEntered(int, int);
+	void on_tableWidget_cellPressed(int, int);
 };
 
 #endif // QBLUETOOTH_HPP
