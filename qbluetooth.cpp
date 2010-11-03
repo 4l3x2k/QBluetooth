@@ -9,6 +9,14 @@ QBluetooth::QBluetooth(QWidget *parent) :
 	qDebug() << "qbluetooth: Hello";
 	ui->statusbar->showMessage("Ready");
 
+	qgs.addRect(0, 0, 128, 64);
+	qgs.addText("QBluetooth");
+	ui->graphicsView->setScene(&qgs);
+
+	ui->toolBarDevice->addWidget(ui->toolButtonScan);
+	ui->toolBarDevice->addWidget(ui->toolButtonConnect);
+	ui->toolBarDisplay->addWidget(ui->toolButtonSend);
+	ui->toolBarDisplay->addWidget(ui->toolButtonClear);
 }
 
 QBluetooth::~QBluetooth() {
@@ -49,32 +57,8 @@ void QBluetooth::on_listWidget_itemClicked(QListWidgetItem *item) {
 }
 
 /*
-  * Display tab table
+  * Display tab graphics view
   */
-void QBluetooth::on_tableWidget_cellActivated(int row, int column) {
-	qDebug() << "qbluetooth: Cell " << column << "x" << row << " activated";
-}
-
-void QBluetooth::on_tableWidget_cellChanged(int row, int column) {
-	qDebug() << "qbluetooth: Cell " << column << "x" << row << " changed";
-}
-
-void QBluetooth::on_tableWidget_cellClicked(int row, int column) {
-	qDebug() << "qbluetooth: Cell " << column << "x" << row << " clicked";
-}
-
-void QBluetooth::on_tableWidget_cellDoubleClicked(int row, int column) {
-	qDebug() << "qbluetooth: Cell " << column << "x" << row << " double clicked";
-}
-
-void QBluetooth::on_tableWidget_cellEntered(int row, int column) {
-	qDebug() << "qbluetooth: Cell " << column << "x" << row << " entered";
-	on_tableWidget_cellPressed(row, column);
-}
-
-void QBluetooth::on_tableWidget_cellPressed(int row, int column) {
-	qDebug() << "qbluetooth: Cell " << column << "x" << row << " pressed";
-	QTableWidgetItem *item = new QTableWidgetItem();
-	item->setSelected(true);
-	ui->tableWidget->setItem(row, column, item);
+void QBluetooth::on_verticalSliderZoom_valueChanged(int val) {
+	ui->graphicsView->scale(val, val);
 }

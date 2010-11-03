@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QList>
 #include <QListWidgetItem>
+#include <QGraphicsScene>
 #include <QDebug>
 
 namespace Ui {
@@ -20,6 +21,7 @@ public:
 
 private:
     Ui::QBluetooth *ui;
+	QGraphicsScene qgs;
 
 private slots:
 	// Device tab buttons
@@ -33,13 +35,8 @@ private slots:
 	void on_toolButtonSend_clicked();
 	void on_toolButtonClear_clicked();
 
-	// Display tab table
-	void on_tableWidget_cellActivated(int, int);
-	void on_tableWidget_cellChanged(int, int);
-	void on_tableWidget_cellClicked(int, int);
-	void on_tableWidget_cellDoubleClicked(int, int);
-	void on_tableWidget_cellEntered(int, int);
-	void on_tableWidget_cellPressed(int, int);
+	// Display tab graphics view
+	void on_verticalSliderZoom_valueChanged(int);
 };
 
 #endif // QBLUETOOTH_HPP

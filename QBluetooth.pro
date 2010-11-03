@@ -10,3 +10,6 @@ SOURCES += \
 
 FORMS += \
     qbluetooth.ui
+
+RESOURCES += \
+    qbluetooth.qrc
