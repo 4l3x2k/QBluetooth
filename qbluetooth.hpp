@@ -5,6 +5,7 @@
 #include <QList>
 #include <QListWidgetItem>
 #include <QDebug>
+#include "bluetooth.hpp"
 
 namespace Ui {
     class QBluetooth;
@@ -20,6 +21,7 @@ public:
 
 private:
     Ui::QBluetooth *ui;
+	Bluetooth bluetooth;
 
 private slots:
 	// Device tab buttons

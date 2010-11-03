@@ -8,7 +8,6 @@ QBluetooth::QBluetooth(QWidget *parent) :
     ui->setupUi(this);
 	qDebug() << "qbluetooth: Hello";
 	ui->statusbar->showMessage("Ready");
-
 }
 
 QBluetooth::~QBluetooth() {
@@ -21,6 +20,13 @@ QBluetooth::~QBluetooth() {
   */
 void QBluetooth::on_toolButtonScan_clicked() {
 	qDebug() << "qbluetooth: Scan clicked";
+	ui->statusbar->showMessage("Scanning");
+	bluetooth.scan();
+	ui->statusbar->showMessage("Ready");
+	for(std::map<std::string, std::string>::iterator it = bluetooth.Devices.begin();
+	    it != bluetooth.Devices.end();
+	    it++)
+		ui->listWidget->addItem(it->second.c_str());
 }
 
 void QBluetooth::on_toolButtonConnect_clicked() {
@@ -46,6 +52,14 @@ void QBluetooth::on_toolButtonClear_clicked() {
   */
 void QBluetooth::on_listWidget_itemClicked(QListWidgetItem *item) {
 	qDebug() << "qbluetooth: List item clicked";
+	for(std::map<std::string, std::string>::iterator it = bluetooth.Devices.begin();
+	    it != bluetooth.Devices.end();
+	    it++) {
+		if((QString)it->second.c_str() == item->text())
+			qDebug() << "qbluetooth: Name: " << item->text()
+					 <<	" Adresse: " << (QString)it->first.c_str();
+	}
+	ui->toolButtonConnect->setEnabled(true);
 }
 
 /*

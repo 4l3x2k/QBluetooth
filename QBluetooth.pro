@@ -10,3 +10,5 @@ SOURCES += \
 
 FORMS += \
     qbluetooth.ui
+
+unix: LIBS += -lbluetooth
