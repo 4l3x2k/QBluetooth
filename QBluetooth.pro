@@ -14,3 +14,5 @@ FORMS += \
     qbluetooth.ui
 
 unix: LIBS += -lbluetooth
+RESOURCES += \
+    qbluetooth.qrc

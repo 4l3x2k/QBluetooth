@@ -2,6 +2,7 @@
 #define QBLUETOOTH_HPP
 
 #include <QMainWindow>
+#include <QTableWidgetItem>
 #include <QDebug>
 #include "bluetoothrfcomm.hpp"
 
