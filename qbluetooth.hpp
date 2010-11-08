@@ -2,10 +2,8 @@
 #define QBLUETOOTH_HPP
 
 #include <QMainWindow>
-#include <QList>
-#include <QListWidgetItem>
 #include <QDebug>
-#include "bluetooth.hpp"
+#include "bluetoothrfcomm.hpp"
 
 namespace Ui {
     class QBluetooth;
@@ -21,7 +19,7 @@ public:
 
 private:
     Ui::QBluetooth *ui;
-	Bluetooth bluetooth;
+	BluetoothRFComm serial;
 
 private slots:
 	// Device tab buttons
@@ -29,7 +27,7 @@ private slots:
 	void on_toolButtonConnect_clicked();
 
 	// Device tab lists
-	void on_listWidget_itemClicked(QListWidgetItem *);
+	void on_listWidget_itemClicked();
 
 	// Display tab buttons
 	void on_toolButtonSend_clicked();

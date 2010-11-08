@@ -1,12 +1,14 @@
 
 HEADERS += \
     qbluetooth.hpp \
-    bluetooth.hpp
+    bluetoothrfcomm.hpp \
+    bluetoothdevice.hpp
 
 SOURCES += \
     qbluetooth.cpp \
     main.cpp \
-    bluetooth.cpp
+    bluetoothrfcomm.cpp \
+    bluetoothdevice.cpp
 
 FORMS += \
     qbluetooth.ui

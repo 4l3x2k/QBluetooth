@@ -20,17 +20,27 @@ QBluetooth::~QBluetooth() {
   */
 void QBluetooth::on_toolButtonScan_clicked() {
 	qDebug() << "qbluetooth: Scan clicked";
+	ui->listWidget->clear();
 	ui->statusbar->showMessage("Scanning");
-	bluetooth.scan();
+	int found = serial.inquiry();
+	for(int i = 0; i < found; i++) {
+		bdaddr_t temp = serial.getRemoteAddress(i);
+		ui->listWidget->addItem(QString::fromStdString(serial.getRemoteName(temp)));
+	}
 	ui->statusbar->showMessage("Ready");
-	for(std::map<std::string, std::string>::iterator it = bluetooth.Devices.begin();
-	    it != bluetooth.Devices.end();
-	    it++)
-		ui->listWidget->addItem(it->second.c_str());
 }
 
 void QBluetooth::on_toolButtonConnect_clicked() {
 	qDebug() << "qbluetooth: Connect clicked";
+	serial.connecting(ui->listWidget->row(ui->listWidget->selectedItems()[0]), 1);
+	if((serial.getStatus()) < 0)
+		ui->statusbar->showMessage("Disconnected");
+	else {
+		ui->statusbar->showMessage("Connected");
+		ui->Display->setEnabled(true);
+		ui->toolButtonSend->setEnabled(true);
+		ui->toolButtonClear->setEnabled(true);
+	}
 }
 
 /*
@@ -38,6 +48,14 @@ void QBluetooth::on_toolButtonConnect_clicked() {
   */
 void QBluetooth::on_toolButtonSend_clicked() {
 	qDebug() << "qbluetooth: Send clicked";
+	serial.send("qbluetooth: Send button clicked");
+
+	QString data;
+	QList<QTableWidgetItem *> selected = ui->tableWidget->selectedItems();
+	qDebug() << "Items selected " << selected.count();
+	foreach(QTableWidgetItem *selection, selected) {
+		qDebug() << selection->column() << "x" << selection->row();
+	}
 }
 
 void QBluetooth::on_toolButtonClear_clicked() {
@@ -50,15 +68,8 @@ void QBluetooth::on_toolButtonClear_clicked() {
 /*
   * Device tab lists
   */
-void QBluetooth::on_listWidget_itemClicked(QListWidgetItem *item) {
+void QBluetooth::on_listWidget_itemClicked() {
 	qDebug() << "qbluetooth: List item clicked";
-	for(std::map<std::string, std::string>::iterator it = bluetooth.Devices.begin();
-	    it != bluetooth.Devices.end();
-	    it++) {
-		if((QString)it->second.c_str() == item->text())
-			qDebug() << "qbluetooth: Name: " << item->text()
-					 <<	" Adresse: " << (QString)it->first.c_str();
-	}
 	ui->toolButtonConnect->setEnabled(true);
 }
 
@@ -83,12 +94,8 @@ void QBluetooth::on_tableWidget_cellDoubleClicked(int row, int column) {
 
 void QBluetooth::on_tableWidget_cellEntered(int row, int column) {
 	qDebug() << "qbluetooth: Cell " << column << "x" << row << " entered";
-	on_tableWidget_cellPressed(row, column);
 }
 
 void QBluetooth::on_tableWidget_cellPressed(int row, int column) {
 	qDebug() << "qbluetooth: Cell " << column << "x" << row << " pressed";
-	QTableWidgetItem *item = new QTableWidgetItem();
-	item->setSelected(true);
-	ui->tableWidget->setItem(row, column, item);
 }
