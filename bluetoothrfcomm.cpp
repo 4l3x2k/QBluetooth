@@ -63,3 +63,7 @@ int BluetoothRFComm::connecting(int to, int channel) {
 int BluetoothRFComm::send(std::string data) {
 	return write(sock, data.c_str(), data.length());
 }
+
+int BluetoothRFComm::send(void *data, size_t length) {
+	return write(sock, &data, length);
+}

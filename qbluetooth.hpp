@@ -1,6 +1,7 @@
 #ifndef QBLUETOOTH_HPP
 #define QBLUETOOTH_HPP
 
+#include <bitset>
 #include <QMainWindow>
 #include <QTableWidgetItem>
 #include <QDebug>

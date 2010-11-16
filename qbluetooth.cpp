@@ -56,13 +56,13 @@ void QBluetooth::on_toolButtonSend_clicked() {
 	qDebug() << "qbluetooth: Send clicked";
 	serial.send("qbluetooth: Send button clicked\n");
 
-	QString data(128*64, '0');
+	std::bitset<128*64> pixels;
+	pixels.reset();
 	QList<QTableWidgetItem *> selected = ui->tableWidget->selectedItems();
 	qDebug() << "Items selected " << selected.count();
-	foreach(QTableWidgetItem *selection, selected) {
-		data.replace((selection->column()+1) * (selection->row()+1), 1, QChar('1'));
-	}
-	serial.send(data.toStdString());
+	foreach(QTableWidgetItem *selection, selected)
+		pixels.set(selection->column() * selection->row());
+	serial.send(&pixels, pixels.size());
 }
 
 void QBluetooth::on_toolButtonClear_clicked() {

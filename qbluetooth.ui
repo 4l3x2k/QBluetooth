@@ -61,6 +61,16 @@
           <property name="text">
            <string>Connect</string>
           </property>
+          <property name="icon">
+           <iconset resource="qbluetooth.qrc">
+            <normaloff>:/images/images/network-connect.png</normaloff>:/images/images/network-connect.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>48</width>
+            <height>48</height>
+           </size>
+          </property>
           <property name="toolButtonStyle">
            <enum>Qt::ToolButtonTextUnderIcon</enum>
           </property>
@@ -76,7 +86,7 @@
           </property>
           <property name="icon">
            <iconset resource="qbluetooth.qrc">
-            <normaloff>:/images/images/network-wireless.png</normaloff>:/images/images/network-wireless.png</iconset>
+            <normaloff>:/images/images/preferences-system-bluetooth.png</normaloff>:/images/images/preferences-system-bluetooth.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -333,6 +343,16 @@
           <property name="text">
            <string>Send</string>
           </property>
+          <property name="icon">
+           <iconset resource="qbluetooth.qrc">
+            <normaloff>:/images/images/view-refresh.png</normaloff>:/images/images/view-refresh.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>48</width>
+            <height>48</height>
+           </size>
+          </property>
           <property name="checkable">
            <bool>false</bool>
           </property>
@@ -348,6 +368,16 @@
           </property>
           <property name="text">
            <string>Clear</string>
+          </property>
+          <property name="icon">
+           <iconset resource="qbluetooth.qrc">
+            <normaloff>:/images/images/trash-empty.png</normaloff>:/images/images/trash-empty.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>48</width>
+            <height>48</height>
+           </size>
           </property>
           <property name="toolButtonStyle">
            <enum>Qt::ToolButtonTextUnderIcon</enum>

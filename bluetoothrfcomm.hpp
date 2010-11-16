@@ -24,5 +24,6 @@ public:
 	int connecting(std::string, int);
 	int connecting(int, int);
 	int send(std::string);
+	int send(void *, size_t);
 };
 #endif
