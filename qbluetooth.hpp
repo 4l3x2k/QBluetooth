@@ -1,7 +1,7 @@
 #ifndef QBLUETOOTH_HPP
 #define QBLUETOOTH_HPP
 
-#include <bitset>
+#include <string>
 #include <QMainWindow>
 #include <QTableWidgetItem>
 #include <QDebug>
@@ -27,6 +27,7 @@ private slots:
 	// Device tab buttons
 	void on_toolButtonScan_clicked();
 	void on_toolButtonConnect_clicked();
+	void on_toolButtonDisconnect_clicked();
 
 	// Device tab lists
 	void on_listWidget_itemClicked();

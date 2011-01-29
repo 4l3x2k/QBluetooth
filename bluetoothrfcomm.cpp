@@ -20,15 +20,11 @@ BluetoothDevice(localAddress) {
 }
 
 BluetoothRFComm::~BluetoothRFComm() {
-	close(sock);
+	disconnecting();
 }
 
 int BluetoothRFComm::getStatus() {
 	return status;
-}
-
-int BluetoothRFComm::connecting(std::string remoteAddress) {
-	return connecting(remoteAddress, 0);
 }
 
 /*
@@ -36,6 +32,10 @@ int BluetoothRFComm::connecting(std::string remoteAddress) {
   * Use a index pointing to the right remote device in neighbors array.
   * int BluetoothRFComm::connecting(int to, int channel)
   */
+int BluetoothRFComm::connecting(std::string remoteAddress) {
+	return connecting(remoteAddress, 1);
+}
+
 int BluetoothRFComm::connecting(std::string remoteAddress, int channel) {
 	struct sockaddr_rc addr;
 
@@ -60,10 +60,16 @@ int BluetoothRFComm::connecting(int to, int channel) {
 	return status;
 }
 
-int BluetoothRFComm::send(std::string data) {
-	return write(sock, data.c_str(), data.length());
+void BluetoothRFComm::disconnecting() {
+	close(sock);
 }
 
-int BluetoothRFComm::send(void *data, size_t length) {
-	return write(sock, &data, length);
+
+int BluetoothRFComm::send(uint8_t data) {
+	return write(sock, &data, 1);
+}
+
+
+int BluetoothRFComm::send(char *data, int length) {
+	return write(sock, data, length);
 }

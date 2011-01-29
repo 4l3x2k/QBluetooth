@@ -4,5 +4,6 @@
         <file>images/network-connect.png</file>
         <file>images/view-refresh.png</file>
         <file>images/trash-empty.png</file>
+        <file>images/network-disconnect.png</file>
     </qresource>
 </RCC>

@@ -2,6 +2,7 @@
 #define BLUETOOTHRFCOMM_HPP
 
 #include <string>
+#include <bitset>
 #include <bluetooth/bluetooth.h>
 #include <bluetooth/rfcomm.h>
 #include "bluetoothdevice.hpp"
@@ -23,7 +24,8 @@ public:
 	int connecting(std::string);
 	int connecting(std::string, int);
 	int connecting(int, int);
-	int send(std::string);
-	int send(void *, size_t);
+	void disconnecting();
+	int send(uint8_t);
+	int send(char *, int);
 };
 #endif
