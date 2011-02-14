@@ -2,8 +2,12 @@
     <qresource prefix="/images">
         <file>images/preferences-system-bluetooth.png</file>
         <file>images/network-connect.png</file>
-        <file>images/view-refresh.png</file>
-        <file>images/trash-empty.png</file>
         <file>images/network-disconnect.png</file>
+        <file>images/application-exit.png</file>
+        <file>images/document-open.png</file>
+        <file>images/document-save.png</file>
+        <file>images/document-export.png</file>
+        <file>images/document-close.png</file>
+        <file>images/draw-rectangle.png</file>
     </qresource>
 </RCC>

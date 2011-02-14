@@ -1,12 +1,34 @@
+/*
+ * <one line to give the program's name and a brief idea of what it does.>
+ * Copyright (C) 2011	Alexander Meinke <ameinke at online dot de>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
 #include "qbluetooth.hpp"
 #include "ui_qbluetooth.h"
 
 
 QBluetooth::QBluetooth(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::QBluetooth) {
+    ui(new Ui::QBluetooth),
+	display(new BluetoothDisplayTable),
+	channel(new BluetoothRFComm) {
     ui->setupUi(this);
-	qDebug() << "qbluetooth: Hello";
+	ui->gridLayout_2->addWidget(display);
+	qDebug() << "QBluetooth: Hello";
 	ui->statusbar->showMessage("Ready");
 
 	ui->toolBarDevice->addWidget(ui->toolButtonScan);
@@ -14,152 +36,99 @@ QBluetooth::QBluetooth(QWidget *parent) :
 	ui->toolBarDevice->addWidget(ui->toolButtonDisconnect);
 	ui->toolBarDisplay->addWidget(ui->toolButtonSend);
 	ui->toolBarDisplay->addWidget(ui->toolButtonClear);
+	ui->toolBarEdit->addWidget(ui->toolButtonRectangle);
 }
 
 QBluetooth::~QBluetooth() {
-	qDebug() << "qbluetooth: Bye";
-    delete ui;
+	qDebug() << "QBluetooth: Bye";
+	delete channel;
+	delete display;
+	delete ui;
+}
+
+/*
+  * Context menu actions
+  */
+void QBluetooth::on_actionOpen_triggered() {
+	qDebug() << "QBluetooth: Open action triggered";
+	QString file = QFileDialog::getOpenFileName(this, "Open Display File",
+												QDir::homePath());
+	display->openImage(file);
+}
+
+void QBluetooth::on_actionSave_triggered() {
+	qDebug() << "QBluetooth: Save action triggered";
+	QString file = QFileDialog::getSaveFileName(this, "Save Display File",
+												QDir::homePath());
+	display->saveImage(file);
 }
 
 /*
   * Device tab buttons
   */
 void QBluetooth::on_toolButtonScan_clicked() {
-	qDebug() << "qbluetooth: Scan clicked";
+	qDebug() << "QBluetooth: Scan clicked";
 	ui->listWidget->clear();
 	ui->statusbar->showMessage("Scanning");
-	int found = serial.inquiry();
-	for(int i = 0; i < found; i++) {
-		bdaddr_t temp = serial.getRemoteAddress(i);
-		ui->listWidget->addItem(QString::fromStdString(serial.getRemoteName(temp)));
-	}
+	channel->inquiry();
+	ui->listWidget->addItems(channel->getRemoteNames());
 	ui->statusbar->showMessage("Ready");
-}
-
-void QBluetooth::on_toolButtonConnect_clicked() {
-	qDebug() << "qbluetooth: Connect clicked";
-	ui->statusbar->showMessage("Connecting");
-	if(ui->listWidget->selectedItems().count() != 0)
-		serial.connecting(ui->listWidget->row(ui->listWidget->selectedItems()[0]), 1);
-	else {
-		qDebug() << "qbluetooth: Choose a remote device from list";
-		return;
-	}
-	if((serial.getStatus()) < 0)
-		ui->statusbar->showMessage("Disconnected");
-	else {
-		ui->statusbar->showMessage("Connected");
-	}
-}
-
-void QBluetooth::on_toolButtonDisconnect_clicked() {
-	qDebug() << "qbluetooth: Disconnect clicked";
-	ui->statusbar->showMessage("Disconnected");
-	serial.disconnecting();
 }
 
 /*
   * Display tab buttons
   */
 void QBluetooth::on_toolButtonSend_clicked() {
-	qDebug() << "qbluetooth: Send clicked";
-	uint8_t pixels[128][64] = {{'\x00'}};
-	QList<QTableWidgetItem *> selection = ui->tableWidget->selectedItems();
-	qDebug() << "Items selected " << selection.count();
-	foreach(QTableWidgetItem *selected, selection)
-		pixels[selected->column()][selected->row()] = '\x01';
-
-	/* Send row by row (horizontal) in bytes.
-	for(unsigned short i = 0; i < 64; i++) {
-		for(unsigned short j = 0; j < 128; j+=8) {
-			serial.send((pixels[j][i] << 7)
-			            | (pixels[j+1][i] << 6)
-			            | (pixels[j+2][i] << 5)
-			            | (pixels[j+3][i] << 4)
-			            | (pixels[j+4][i] << 3)
-			            | (pixels[j+5][i] << 2)
-			            | (pixels[j+6][i] << 1)
-			            | pixels[j+7][i]);
-			qDebug() << ((pixels[j][i] << 7)
-			            | (pixels[j+1][i] << 6)
-			            | (pixels[j+2][i] << 5)
-			            | (pixels[j+3][i] << 4)
-			            | (pixels[j+4][i] << 3)
-			            | (pixels[j+5][i] << 2)
-			            | (pixels[j+6][i] << 1)
-			            | pixels[j+7][i]);
+	qDebug() << "QBluetooth: Send clicked";
+	for(qint16 y = 0; y < 64; y+=8)
+		for(qint16 x = 0; x < 128; x++) {
+			quint8 toSend = ((display->pixel(x, y)^QColor(Qt::black).rgb())&0x00000001
+			                 | ((display->pixel(x, y+1)^QColor(Qt::black).rgb())&0x00000001) << 1
+							 | ((display->pixel(x, y+2)^QColor(Qt::black).rgb())&0x00000001) << 2
+							 | ((display->pixel(x, y+3)^QColor(Qt::black).rgb())&0x00000001) << 3
+					         | ((display->pixel(x, y+4)^QColor(Qt::black).rgb())&0x00000001) << 4
+					         | ((display->pixel(x, y+5)^QColor(Qt::black).rgb())&0x00000001) << 5
+					         | ((display->pixel(x, y+6)^QColor(Qt::black).rgb())&0x00000001) << 6
+					         | ((display->pixel(x, y+7)^QColor(Qt::black).rgb())&0x00000001) << 7);
+			channel->send(&toSend, 1);
+			qDebug() << "QBluetooth:" << x << "x" << y << ":"
+			         << (((display->pixel(x, y)^QColor(Qt::black).rgb())&0x00000001) << 7
+			             | ((display->pixel(x, y+1)^QColor(Qt::black).rgb())&0x00000001) << 6
+		                 | ((display->pixel(x, y+2)^QColor(Qt::black).rgb())&0x00000001) << 5
+		                 | ((display->pixel(x, y+3)^QColor(Qt::black).rgb())&0x00000001) << 4
+		                 | ((display->pixel(x, y+4)^QColor(Qt::black).rgb())&0x00000001) << 3
+		                 | ((display->pixel(x, y+5)^QColor(Qt::black).rgb())&0x00000001) << 2
+		                 | ((display->pixel(x, y+6)^QColor(Qt::black).rgb())&0x00000001) << 1
+		                 | (display->pixel(x, y+7)^QColor(Qt::black).rgb())&0x00000001);
 		}
-	}*/
-
-	/* Send page by page height (vertical) in bytes. */
-	for(unsigned short i = 0; i < 64; i+=8) {
-		for(unsigned short j = 0; j < 128; j++) {
-			serial.send(pixels[j][i]
-			            | (pixels[j][i+1] << 1)
-			            | (pixels[j][i+2] << 2)
-			            | (pixels[j][i+3] << 3)
-			            | (pixels[j][i+4] << 4)
-			            | (pixels[j][i+5] << 5)
-			            | (pixels[j][i+6] << 6)
-			            | (pixels[j][i+7] << 7));
-			qDebug() << ((pixels[j][i] << 7)
-			            | (pixels[j][i+1] << 6)
-			            | (pixels[j][i+2] << 5)
-			            | (pixels[j][i+3] << 4)
-			            | (pixels[j][i+4] << 3)
-			            | (pixels[j][i+5] << 2)
-			            | (pixels[j][i+6] << 1)
-			            | pixels[j][i+7]);
-		}
-	}
 }
 
 void QBluetooth::on_toolButtonClear_clicked() {
-	qDebug() << "qbluetooth: Clear clicked";
-	/*
-	  * Functionality implemented by QTableWidget slot clear()
-	  */
+	qDebug() << "QBluetooth: Clear clicked";
+	display->fill(0);
+	display->clear();
 }
+
+void QBluetooth::on_toolButtonRectangle_clicked() {
+	qDebug() << "QBluetooth: Rectangle clicked";
+	display->addRect(QPoint(0, 0), QSize(20, 10));
+}
+
 
 /*
   * Device tab lists
   */
-void QBluetooth::on_listWidget_itemClicked() {
-	qDebug() << "qbluetooth: List item clicked";
-}
 
-/*
-  * Display tab table
-  */
-void QBluetooth::on_tableWidget_cellActivated(int row, int column) {
-	qDebug() << "qbluetooth: Cell " << column << "x" << row << " activated";
-}
 
-void QBluetooth::on_tableWidget_cellChanged(int row, int column) {
-	qDebug() << "qbluetooth: Cell " << column << "x" << row << " changed";
-}
-
-void QBluetooth::on_tableWidget_cellClicked(int row, int column) {
-	qDebug() << "qbluetooth: Cell " << column << "x" << row << " clicked";
-	QTableWidgetItem *item = new QTableWidgetItem();
-	item->setSelected(true);
-	ui->tableWidget->setItem(row, column, item);
-}
-
-void QBluetooth::on_tableWidget_cellDoubleClicked(int row, int column) {
-	qDebug() << "qbluetooth: Cell " << column << "x" << row << " double clicked";
-}
-
-void QBluetooth::on_tableWidget_cellEntered(int row, int column) {
-	qDebug() << "qbluetooth: Cell " << column << "x" << row << " entered";
-	QTableWidgetItem *item = new QTableWidgetItem();
-	item->setSelected(true);
-	ui->tableWidget->setItem(row, column, item);
-}
-
-void QBluetooth::on_tableWidget_cellPressed(int row, int column) {
-	qDebug() << "qbluetooth: Cell " << column << "x" << row << " pressed";
-	QTableWidgetItem *item = new QTableWidgetItem();
-	item->setSelected(true);
-	ui->tableWidget->setItem(row, column, item);
+void QBluetooth::on_listWidget_itemDoubleClicked() {
+	qDebug() << "QBluetooth: List item double clicked";
+	/*
+	 * Connecting to remote device could be called here.
+	 */
+	ui->statusbar->showMessage("Connecting");
+	channel->connecting(ui->listWidget->selectedItems()[0]->text(), 1);
+	if(channel->getStatus() == true)
+		ui->statusbar->showMessage("Connected");
+	else
+		ui->statusbar->showMessage("Disconnected");
 }
