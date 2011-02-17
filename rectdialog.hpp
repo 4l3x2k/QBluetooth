@@ -2,13 +2,24 @@
 #define RECTDIALOG_HP
 
 #include <QtGui>
-#include <QDialog>
+#include <QDebug>
+
 
 class RectDialog : public QDialog {
     Q_OBJECT
-	QSpinBox *spinBoxX;
+	QFormLayout *layoutRect;
+	QHBoxLayout *hboxLayoutRect;
+	QPushButton *pushButtonAccept;
+	QPushButton *pushButtonReject;
+
 public:
+	QSpinBox *spinBoxX;
+	QSpinBox *spinBoxY;
+	QSpinBox *spinBoxW;
+	QSpinBox *spinBoxH;
+
     explicit RectDialog(QWidget *parent = 0);
+	~RectDialog();
 
 signals:
 

@@ -25,6 +25,10 @@
 
 #include "bluetoothdisplaytable.hpp"
 #include "bluetoothrfcomm.hpp"
+#include "line.hpp"
+#include "rectangle.hpp"
+#include "rectdialog.hpp"
+
 
 namespace Ui {
     class QBluetooth;

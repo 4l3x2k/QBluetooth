@@ -36,11 +36,18 @@
 
 
 #ifdef Q_OS_MAC
+/*! Klasse die Nachrichten asynchroner Funktionen auf Mac OS X Systemen
+	empfängt. */
 @interface BluetoothDeviceDelegate : NSObject {
 }
 @end
 #endif // Q_OS_MAC
 
+
+/*! BluetoothDevice ist dafür verantwortlich, entfernte Bluetooth-Geräte zu
+	finden. Über inquiry wird der Scanvorgang gestartet.
+
+	Diese Klasse wird Betriebssystemabhängig implementiert. */
 class BluetoothDevice {
 #ifdef Q_OS_LINUX
 	qint32 deviceId;
@@ -53,16 +60,36 @@ class BluetoothDevice {
 #endif
 
 protected:
+	/*! Geräte in der Umgebung werden mit ihrerer Adresse und ihren Namen
+		gespeichert. */
 	QMap<QString, QString> neighboors;
 
 public:
+	/*! Der Standard-Konstruktor findet ein Bluetooth-Gerät im System. */
     BluetoothDevice();
+
+	/*! Der Standrd-Destruktor gibt allozierten Speicher frei. */
 	~BluetoothDevice();
 
+	/*! Inquiry startet einen Scanvorgang und liefert die Anzahl gefundener
+		Geräte zurück.
+		\return Anzahl Geräte */
 	qint32 inquiry();
+
+	/*! Gibt die Adresse eines entfernten Bluetooth-Geräts zurück sofern es
+		sich in der näheren Umgebung befindet.
+		\param name Gerätename
+		\return Geräteadresse */
 	QString getRemoteAddress(QString) const;
+
+	/*! Gibt den Namen eines entfernten Bluetooth-Geräts zurück, sofern es
+		sich in der näheren Umgebung befindet.
+		\param address Geräteadresse
+		\return Gerätename */
 	QString getRemoteName(QString) const;
+
+	/*! Gibt die Namen aller in der Umgebung befindlichen Geräte zurück.
+		\return Liste der Gerätenamen */
 	QList<QString> getRemoteNames() const;
 };
-
 #endif // BLUETOOTHDEVICE_HPP

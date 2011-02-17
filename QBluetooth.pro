@@ -3,12 +3,20 @@ HEADERS += \
     qbluetooth.hpp \
     bluetoothdevice.hpp \
 	bluetoothrfcomm.hpp \
-    bluetoothdisplaytable.hpp
+    bluetoothdisplaytable.hpp \
+	primitive.hpp \
+	line.hpp \
+	rectangle.hpp \
+	rectdialog.hpp
 
 SOURCES += \
     qbluetooth.cpp \
     main.cpp \
-    bluetoothdisplaytable.cpp
+    bluetoothdisplaytable.cpp \
+	primitive.cpp \
+	line.cpp \
+	rectangle.cpp \
+	rectdialog.cpp
 
 FORMS += \
     qbluetooth.ui

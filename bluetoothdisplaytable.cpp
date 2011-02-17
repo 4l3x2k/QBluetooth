@@ -46,22 +46,13 @@ BluetoothDisplayTable::~BluetoothDisplayTable() {
 	qDebug() << "BluetoothDisplayTable: Bye";
 }
 
-void BluetoothDisplayTable::addRect(QPoint point, QSize size) {
-	qDebug() << "BluetoothDisplayTable: Rectangle";
-	for(qint16 x = point.x(); x < point.x()+size.width(); x++) {
-		setCurrentCell(point.y(), x, QItemSelectionModel::Select);
-		setPixel(x, point.y(), 1);
-		setCurrentCell(point.y()+size.height(), x, QItemSelectionModel::Select);
-		setPixel(x, point.y()+size.height(), 1);
-	}
-	for(qint16 y = point.y(); y < point.y()+size.height(); y++) {
-		setCurrentCell(y, point.x(), QItemSelectionModel::Select);
-		setPixel(point.x(), y, 1);
-		setCurrentCell(y, point.x()+size.width(), QItemSelectionModel::Select);
-		setPixel(point.x()+size.width(), y, 1);
-	}
-	setPixel(point.x()+size.width(), point.y()+size.height(), 1);
-	setCurrentCell(point.y()+size.height(), point.x()+size.width(), QItemSelectionModel::Select);
+void BluetoothDisplayTable::addPrimitive(Primitive *primitive) {
+	primitives.push_back(primitive);
+	primitive->draw();
+}
+
+unsigned short BluetoothDisplayTable::getPrimitiveSize() {
+	return primitives.size();
 }
 
 void BluetoothDisplayTable::cellSelected(int row, int column) {

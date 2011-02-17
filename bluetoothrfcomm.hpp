@@ -27,13 +27,19 @@
 #include <bluetooth/rfcomm.h>
 #endif // Q_OS_LINUX
 
+
 #ifdef Q_OS_MAC
+/*! Klasse die Nachrichten asynchroner Funktionen auf Mac OS X Systemen
+	empfängt. */
 @interface BluetoothRFCommDelegate : NSObject <IOBluetoothRFCOMMChannelDelegate> {
 }
 @end
 #endif // Q_OS_MAC
 
+/*! BluetoothRFComm dient als Schnittstelle zu einer seriellen Verbindung
+	zwischen dem lokalen Bluetooth-Grät und einem entferntem Bluetooth-Gerät.
 
+	Diese Klasse wird Betriebssystemabhängig implementiert. */
 class BluetoothRFComm : public BluetoothDevice {
 #ifdef Q_OS_LINUX
 	qint32 sock;
@@ -47,13 +53,30 @@ class BluetoothRFComm : public BluetoothDevice {
 #endif // Q_OS_MAC
 
 public:
+	/*! Der Standard-Konstruktor führt keine weiteren Operation durch. */
     BluetoothRFComm();
+
+	/*! Der Standard-Destruktor gibt allozierten Speicher frei. */
 	~BluetoothRFComm();
 
+	/*! Stellt eine serielle Verbindung mit einem entfernten Bluetooth-Gerät
+		her.
+		\param name Gerätename
+		\param channel Dienstport
+		\return true bei Erfolg, ansonsten false */
 	bool connecting(QString, qint32);
+
+	/*! Gibt den aktuellen Status der Verbindung zurück.
+		\return true bei hergestellter Verbindung, ansonsten false */
 	bool getStatus();
+
+	/*! Baut die Verbindung mit dem entfernten Bluetooth-Gerät ab.
+		\return true bei Erfolg, ansonsten false */
 	bool disconnecting();
+
+	/*! Sendet Daten über die serielle Verbindung.
+		\param data Zeiger auf Anfang der Daten
+		\param size Länge der Daten in Byte */
 	qint32 send(void *, qint32);
 };
-
 #endif // BLUETOOTHRFCOMM_HPP

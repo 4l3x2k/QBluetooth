@@ -24,23 +24,50 @@
 #include <QTableWidget>
 #include <QHeaderView>
 #include <QImage>
+#include "primitive.hpp"
 
 
+/*! BluetoothDisplayTable ist ein QTableWidget welches die Klick-Ereignisse
+	auf QImage abbildet. QImage ermöglicht die Verarbeitung von Daten als
+	Pixelinformationen. Diese können in Formaten wie .png oder .jpeg gespeichert
+	werden.  */
 class BluetoothDisplayTable : public QTableWidget, public QImage {
     Q_OBJECT
+	QList<Primitive *> primitives;
 
 public:
+	/*! Initialisiert das QTableWidget und setzt unterscheidliche Eigenschaften. */
     explicit BluetoothDisplayTable(QWidget *parent = 0);
+
+	/*! Gibt allozierten Speicher frei. */
 	~BluetoothDisplayTable();
-	void addRect(QPoint, QSize);
+
+	/*! Fügt eine Figur (wie Rechteck oder Linie) auf dem Display hinzu.
+		\param primitive Geometrische Figur */
+	void addPrimitive(Primitive *);
+
+	/*! Gibt die Anzahl der auf dem Display befindlichen Figuren zurück.
+		\return Anzahl der Figuren */
+	unsigned short getPrimitiveSize();
 
 signals:
 
 private slots:
+	/*! Die Signale cellClicked und cellEntered selektieren eine Zelle in
+		QTableWidget und setzen ein Bit in QImage.
+		\param row Y
+		\param column X */
 	void cellSelected(int, int); // NOT a slot (signal?)
 
 public slots:
+	/*! openImage öffnet eine Datei als QImage und selektiert die entsprechenden
+		Zellen in QTableWidget.
+		\param file Datei welche geöffnet werden soll. */
 	void openImage(QString);
+
+	/*! saveImage speichert QImage im angegeben Format. Das Format wird durch
+		die Dateiendung definiert.
+		\param file Datei in die gespeichert werden soll. (z.B. example.png) */
 	void saveImage(QString);
 };
 

@@ -111,15 +111,20 @@ void QBluetooth::on_toolButtonClear_clicked() {
 
 void QBluetooth::on_toolButtonRectangle_clicked() {
 	qDebug() << "QBluetooth: Rectangle clicked";
-	display->addRect(QPoint(0, 0), QSize(20, 10));
+	RectDialog dialog(this);
+	if(dialog.exec() == QDialog::Accepted) {
+		Rectangle *rectangle = new Rectangle(display,
+											 QPoint(dialog.spinBoxX->value(),
+													dialog.spinBoxY->value()),
+		                                     QSize(dialog.spinBoxW->value(),
+		                                           dialog.spinBoxH->value()));
+		display->addPrimitive(rectangle);
+	}
 }
-
 
 /*
   * Device tab lists
   */
-
-
 void QBluetooth::on_listWidget_itemDoubleClicked() {
 	qDebug() << "QBluetooth: List item double clicked";
 	/*
